@@ -172,5 +172,5 @@
     cron:
       name: ansible auto-provision
       user: autoupdate
-      minute: "*/10"
+      minute: "*/30"
       job: ansible-pull -o -U https://github.com/adamhamilton44/ansible_auto_config.git
