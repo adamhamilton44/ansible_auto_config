@@ -151,6 +151,10 @@
     dconf:
       key: "org/gnome/desktop/interface/gtk-theme"
       value: "'Kali-Dark'"
+
+  - name: set desktop settings part two
+   become_user: adam
+   dconf:
       key: "org/gnome/desktop/interface/icon-theme"
       value: "'Flat-Remix-Blue-Dark'"
 
