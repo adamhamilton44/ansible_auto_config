@@ -61,7 +61,6 @@
         - xxd
         - tar
         - rlwrap
-        - bunzip2
         - unrar
         - gunzip
         - unzip
