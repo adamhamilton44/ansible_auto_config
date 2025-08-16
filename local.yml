@@ -1,0 +1,176 @@
+---
+- hosts: localhost
+  connection: local
+  become: true
+
+  tasks:
+  - name: install packages
+    package:
+      name:
+        - htop
+        - tmux
+        - kali-root-login
+        - kali-grant-root
+        - kali-linux-everything
+        - tldr-py
+        - dconf-cli
+        - uuid-runtime
+        - pinfo
+        - cargo
+        - libssl-dev
+        - codecrypt
+        - whois
+        - bind9-dnsutils
+        - altdns
+        - ffuf
+        - proxychains4
+        - shellcheck
+        - ncat
+        - torbrowser-launcher
+        - neowofetch
+        - torsocks
+        - ccrypt
+        - highlight
+        - flameshot
+        - figlet
+        - lolcat
+        - fzf
+        - gnome-software-plugin-flatpak
+        - btop
+        - xdotool
+        - ufw
+        - seclists
+        - prips
+        - meld
+        - bc
+        - cargo
+        - rustup
+        - git
+        - npm
+        - coreutils
+        - python3-pip
+        - python3-psutil
+        - openssl
+        - zsh-syntax-highlighting
+        - zsh-autosuggestions
+        - curl
+        - lsd
+        - jq
+        - grep
+        - autoconf
+        - xxd
+        - tar
+        - rlwrap
+        - bunzip2
+        - unrar
+        - gunzip
+        - unzip
+        - uncompress
+        - dpkg
+        - 7z
+        - nmap
+        - whiptail
+        - seclists
+        - hydra
+        - medusa
+        - ncrack
+        - john
+        - hashcat
+        - crackmapexec
+        - cewl
+        - basez
+        - build-essential
+        - gcc
+        - libc6-dev
+        - golang
+        - coreutils
+        - autoconf
+        - xxd
+        - sublist3r
+        - sqlmap
+        - nikto
+        - whatweb
+        - gobuster
+        - wpscan
+        - aria2
+        - dirb
+        - nasm
+        - apktool
+        - nrich
+        - exploitdb
+        - make
+        - openssh-client
+        - openssh-server
+        - wafw00f
+        - dnsrecon
+        - golang-go
+
+  - name: copy .zshrc file
+    copy:
+     src: files/zshrc
+     dest: /home/adam/.zshrc
+     owner: adam
+     group: adam
+
+  - name: copy starship file
+    copy:
+     src: files/starship
+     dest: /home/adam/.config/starship.toml
+     owner: adam
+     group: adam
+
+  - name: copy nanorc file
+    copy:
+     src: files/nanorc
+     dest: /etc/nanorc
+     owner: root
+     group: root
+
+  - name: copy nano syntax highlighting bash file
+    copy:
+     src: files/sh.nanorc
+     dest: /usr/share/nano/sh.nanorc
+     owner: root
+     group: root
+
+  - name: copy root .zshrc file
+    copy:
+     src: files/root.zshrc
+     dest: /root/.zshrc
+     owner: root
+     group: root
+
+  - name: copy root starship file
+    copy:
+     src: files/root.starship.toml
+     dest: /root/.config/starship.toml
+     owner: root
+     group: root
+
+  - name: set desktop settings
+    become_user: adam
+    dconf:
+      key: "org/gnome/desktop/interface/gtk-theme"
+      value: "'Kali-Dark'"
+      key: "org/gnome/desktop/interface/icon-theme"
+      value: "'Flat-Remix-Blue-Dark'"
+
+  - name: add ansible user
+    user:
+      name: autoupdate
+      system: yes
+
+  - name: set up sudo for ansible user
+    copy:
+      src: files/sudoer_autoupdate
+      dest: /etc/sudoers.d/autoupdate
+      owner: root
+      group: root
+      mode: 0440
+
+  - name: add ansible-pull cron job
+    cron:
+      name: ansible auto-provision
+      user: autoupdate
+      minute: "*/10"
+      job: ansible-pull -o -U https://github.com/adamhamilton44/ansible_auto_config.git

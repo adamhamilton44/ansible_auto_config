@@ -1,0 +1,207 @@
+# ADDED VIA ANSIBLE
+format = """
+[╭─────────────≽➠ ](bold  red)$username$hostname$directory$fill$time$fill$shell            
+[┣───────≽➠ ](bold white)$status$git_branch$git_status$git_commit$fill    $cmd_duration$fill
+[╰──≽➠ ](bold blue) $caracter
+"""
+[username]
+style_user = "#890CA7 italic bold"
+style_root = "#890CA7 italic bold"
+format = "[$user]($style) "
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = false
+format = '[on](white bold) [🐉 ](bg:black italic) [in](yellow italic bold) '
+trim_at = "."
+disabled = false
+# ░░░░░░
+[fill]
+symbol = '░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░' 
+style = ' black'
+
+# Replace the "❯" symbol in the prompt with "➜"
+[character]
+success_symbol = '[≖≖≖> ](bold #4D0F28)[≖≖≖>> ](bold #7B00FF)[≖≖≖>>> ](bold #A2FF00)'
+error_symbol = '[≖≖≖> ](bold #4D0F28)[≖≖≖>> ](bold #7B00FF)[≖≖≖>>> ](bold #A2FF00)'
+
+# configure directory
+[directory]
+read_only = '🔒'
+truncation_length = 9
+truncate_to_repo = false # truncates directory to root folder if in github repo
+style = "bg:#black bold italic #E4953C underline"
+
+# ♛ 🎵  🎶   📸   🗂    📽     ⏬  📜 🎩
+[directory.substitutions]
+"Documents" = " 🗂  "
+"Downloads" = " ⏬"
+"Music" = " 🎶"
+"Pictures" = " 📸 "
+"BlackHat" = " 🎩 "
+"LearnLinux" = " 📜 "
+"CyberSecurityToolKit" = " 🔰 "
+# #890CA7
+[time]
+time_format = "%r"
+format = " [$time](italic bright-purple)"
+style = "bold"
+use_12hr = true
+disabled = false
+
+[cmd_duration]
+format = '[$duration]($style) '
+min_time = 80
+show_milliseconds = false
+disabled = false
+style = " italic #A2FF00"
+
+[aws]
+symbol = "ⓐ Ⓦ Ⓢ "
+
+[conda]
+symbol = " "
+
+[dart]
+symbol = ""
+
+
+[docker_context]
+symbol = "ΔΦςκΞπ"
+format = "via [$symbol$context]($style) "
+style = "blue bold"
+only_with_files = true
+detect_files = ["docker-compose.yml", "docker-compose.yaml", "Dockerfile"]
+detect_folders = []
+disabled = false
+
+[elixir]
+symbol = " "
+
+[elm]
+symbol = ""
+
+#🌱
+[git_branch]
+truncation_length = 4
+truncation_symbol = '…'
+ignore_branches = ['']
+symbol = '🌱'
+
+[git_commit]
+commit_hash_length = 4
+tag_symbol = '🔖 '
+
+[git_state]
+format = '[\($state( $progress_current of $progress_total)\)]($style) '
+cherry_pick = '[🍒 PICKING](bold red)'
+
+
+[git_metrics]
+added_style = 'bold blue'
+format = '[+$added]($added_style)/[-$deleted]($deleted_style) '
+# 🔰  ✓  🏎💨  ⭐  🌐  🌏  ✦  ஃ  🅺   💔  ⛵  🌙  🌕  ✉️   👑  🎣   🤖  🪖  🐉  🧱  🔴  🟢  🔥💯   ♦️   🎯
+[git_status]
+conflicted = '⚠️ '
+ahead = '🏎💨↬  '
+behind = '↫ 😰'
+diverged = '😵'
+up_to_date = '🟢'
+untracked = '🤷'
+stashed = '📦'
+modified = '📝'
+staged = '[++\($count\)](green)'
+renamed = '✍️ '
+deleted = '🗑 '
+
+[golang]
+symbol = "Ⓖ Ⓞ "
+
+[guix_shell]
+disabled = true
+format = "via (yellow bold) "
+symbol = 'B '
+
+[status]
+style = 'bold red'
+symbol = ' ❌ '
+success_symbol = '  💯  '
+not_executable_symbol = ' ⛔ '
+not_found_symbol =  ' 🔍 ' 
+signal_symbol = '⚡'
+pipestatus = true
+pipestatus_separator = '|'
+pipestatus_format = '\[$pipestatus\] => [$symbol$common_meaning$signal_name$maybe_int]($style)'
+recognize_signal_code = true
+format = '[\[$symbol$common_meaning$signal_name$maybe_int\]]($style) '
+map_symbol = true
+disabled = false
+
+
+[hg_branch]
+symbol = " "
+
+[java]
+symbol = "ⓙ ⓐ ⓥ ⓐ "
+
+[julia]
+symbol = ""
+
+[memory_usage]
+symbol = " 💾 "
+
+[nim]
+symbol = "  "
+#7C22DC
+[shell]
+bash_indicator = ' βas͊h '
+zsh_indicator = ' Z͝ s͊h  '
+format = '[via](italic yellow)[$indicator]($style)'
+style = 'bright-red'
+disabled = false
+
+[package]
+symbol = " 📦 "
+
+[perl]
+symbol = " ⚪"
+
+[php]
+symbol = "Ⓟ ⓗ ⓟ"
+
+[python]
+symbol = "₱¥"
+pyenv_version_name = false
+format = 'via [${symbol} (${version} )(\($virtualenv\) )]($style)'
+style = "bold yellow"
+pyenv_prefix = "venv "
+python_binary = ["./venv/bin/python", "python", "python3", "python2"]
+detect_extensions = ["py"]
+version_format = "v${raw}"
+
+[ruby]
+symbol = "Ⓡ ⓤ ⓑ ⓨ"
+
+[rust]
+symbol = "Ⓡ ⓤ ⓢ ⓣ"
+
+[scala]
+symbol = ""
+
+[shlvl]
+disabled = false
+format = '[$symbol$shlvl]($style)'
+repeat = true
+symbol = '❯_'
+repeat_offset = 1
+threshold = 0
+
+[swift]
+symbol = "ﯣ "
+
+[nodejs]
+format = "via [Ⓝ ⓞ ⓓ ⓔ  Ⓙ Ⓢ  $version](bold green) "
+detect_files = ["package.json", ".node-version"]
+detect_folders = ["node_modules"]
+
