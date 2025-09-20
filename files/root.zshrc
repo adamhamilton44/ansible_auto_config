@@ -70,7 +70,9 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git
+fzf-tab
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -118,16 +120,16 @@ alias ah='sudo su adam' # switching user to adam
 alias mman='pinfo' # a colorful man pages
 alias online='arp-scan --interface wlan0 -l' # best option to test who is on network
 alias online1='netdiscover -i wlan0' # 2nd way to test who is on network
-alias l='eza --color=always --icons=always  --git-ignore'
-alias ls='eza -l --color=always --icons=always --git-ignore' # normal listing
-alias la='eza -lA --color=always --icons=always' # list all long format of all files including .dot file
-alias lss='eza -lA --total-size --color=always --icons=always' # list by size
-alias lm='eza -lm --color=always --icons=always' # list by modify time
-alias ld='eza -lD --color=always --icons=always' # directories only
-alias lt='eza -lT --color=always --icons=always --git-ignore' # list tree like
-alias lf='eza -lf --color=always --icons=always --git-ignore' # list files only
-alias GH='cd /home/adam/Windows/WIn_Lin_Share/Kali_Stuff/Github/'
-alias SK='cd /home/adam/Windows/WIn_Lin_Share/Kali_Stuff/CyberSecurityToolKit/'
+alias l='eza --color=always --icons=always --git-ignore'
+alias ls='eza -lh --color=always --icons=always --git-ignore' # normal listing
+alias la='eza -lha --color=always --icons=always' # list all long format of all files including .dot file
+alias lat='eza -lha --tree --color=always' # list all tree format
+alias lss='eza -lhas --total-size --color=always --icons=always' # list by size
+alias lm='eza -lham --color=always --icons=always' # list by modify time
+alias ld='eza -lhd --color=always --icons=always' # directories only
+alias lt='eza -lh --tree --color=always --icons=always --git-ignore' # list tree like
+alias ltd='eza -lhd --tree --color=always --icons=always --git-ignore' # list tree like directories only
+alias lf='eza -lhf --color=always --icons=always --git-ignore' # list files only
 alias onion='oniux'
 alias uzl='unzip -l'
 alias zipup='zip -r -9'
@@ -239,3 +241,72 @@ eval "$(fzf --zsh)"
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 source /home/adam/Documents/Github/CyberSecurityToolKit/bin/tab_complete.cstk
+###-begin-npm-completion-###
+#
+# npm command completion script
+#
+# Installation: npm completion >> ~/.bashrc  (or ~/.zshrc)
+# Or, maybe: npm completion > /usr/local/etc/bash_completion.d/npm
+#
+
+if type complete &>/dev/null; then
+  _npm_completion () {
+    local words cword
+    if type _get_comp_words_by_ref &>/dev/null; then
+      _get_comp_words_by_ref -n = -n @ -n : -w words -i cword
+    else
+      cword="$COMP_CWORD"
+      words=("${COMP_WORDS[@]}")
+    fi
+
+    local si="$IFS"
+    if ! IFS=$'\n' COMPREPLY=($(COMP_CWORD="$cword" \
+                           COMP_LINE="$COMP_LINE" \
+                           COMP_POINT="$COMP_POINT" \
+                           npm completion -- "${words[@]}" \
+                           2>/dev/null)); then
+      local ret=$?
+      IFS="$si"
+      return $ret
+    fi
+    IFS="$si"
+    if type __ltrim_colon_completions &>/dev/null; then
+      __ltrim_colon_completions "${words[cword]}"
+    fi
+  }
+  complete -o default -F _npm_completion npm
+elif type compdef &>/dev/null; then
+  _npm_completion() {
+    local si=$IFS
+    compadd -- $(COMP_CWORD=$((CURRENT-1)) \
+                 COMP_LINE=$BUFFER \
+                 COMP_POINT=0 \
+                 npm completion -- "${words[@]}" \
+                 2>/dev/null)
+    IFS=$si
+  }
+  compdef _npm_completion npm
+elif type compctl &>/dev/null; then
+  _npm_completion () {
+    local cword line point words si
+    read -Ac words
+    read -cn cword
+    let cword-=1
+    read -l line
+    read -ln point
+    si="$IFS"
+    if ! IFS=$'\n' reply=($(COMP_CWORD="$cword" \
+                       COMP_LINE="$line" \
+                       COMP_POINT="$point" \
+                       npm completion -- "${words[@]}" \
+                       2>/dev/null)); then
+
+      local ret=$?
+      IFS="$si"
+      return $ret
+    fi
+    IFS="$si"
+  }
+  compctl -K _npm_completion npm
+fi
+###-end-npm-completion-###

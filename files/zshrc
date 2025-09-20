@@ -70,7 +70,10 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git
+fzf-tab
+direnv
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -114,7 +117,7 @@ alias .7='cd ../../../../../../..'
 alias sai='sudo apt update && sudo apt -y install' # package updater and downloader
 alias gc= 'git clone' # github package downloader
 alias gitck='gitleaks detect -v'
-alias ah='sudo su adam' # switching user to adam
+alias rt='sudo su root' # switching user to adam
 alias mman='pinfo' # a colorful man pages
 alias online='arp-scan --interface wlan0 -l' # best option to test who is on network
 alias online1='netdiscover -i wlan0' # 2nd way to test who is on network
@@ -126,8 +129,6 @@ alias lm='eza -lm --color=always --icons=always' # list by modify time
 alias ld='eza -lD --color=always --icons=always' # directories only
 alias lt='eza -lT --color=always --icons=always --git-ignore' # list tree like
 alias lf='eza -lf --color=always --icons=always --git-ignore' # list files only
-alias GH='cd /home/adam/Windows/WIn_Lin_Share/Kali_Stuff/Github/'
-alias SK='cd /home/adam/Windows/WIn_Lin_Share/Kali_Stuff/CyberSecurityToolKit/'
 alias onion='oniux'
 alias uzl='unzip -l'
 alias zipup='zip -r -9'
@@ -157,6 +158,8 @@ alias stk='setoolkit'
 alias curl='curl -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"'
 alias scripthelp='cat /home/adam/Documents/LearnLinux/adams_script_helpers.md'
 alias fman='compgen -c | fzf | xargs man'
+alias ns='tput smcup'
+alias rs='tput rmcup'
 # --- setup fzf theme ---
 fg="#CBE0F0"
 bg="#011628"
@@ -190,6 +193,7 @@ _fzf_comprun() {
     cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
     export|unset) fzf --preview "eval 'echo \${}'"         "$@" ;;
     ssh)          fzf --preview 'dig {}'                   "$@" ;;
+    la)           fzf --preview "$show_file_or_dir_preview" "$@" ;;
     *)            fzf --preview "$show_file_or_dir_preview" "$@" ;;
   esac
 }
@@ -207,6 +211,8 @@ if [ -f /etc/zsh_command_not_found ]; then
 fi
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 xset s off #-dpms
+eval "$(starship init zsh)"
+
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
     print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
@@ -231,11 +237,4 @@ zinit light-mode for \
 autoload -U compinit; compinit
 source ~/fzf_tab/fzf-tab.plugin.zsh
 ### End of Zinit's installer chunk
-fstr() {
-    grep -Rnw "." -e "$1" 2>/dev/null
-}
-
 eval "$(fzf --zsh)"
-eval "$(zoxide init zsh)"
-eval "$(starship init zsh)"
-source /home/adam/Documents/Github/CyberSecurityToolKit/bin/tab_complete.cstk
