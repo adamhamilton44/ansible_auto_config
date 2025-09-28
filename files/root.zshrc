@@ -159,6 +159,7 @@ alias stk='setoolkit'
 alias curl='curl -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"'
 alias scripthelp='cat /home/adam/Documents/LearnLinux/adams_script_helpers.md'
 alias fman='compgen -c | fzf | xargs man'
+
 # --- setup fzf theme ---
 fg="#CBE0F0"
 bg="#011628"

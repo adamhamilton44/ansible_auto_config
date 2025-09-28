@@ -76,7 +76,7 @@ direnv
 )
 
 source $ZSH/oh-my-zsh.sh
-
+setopt SHARE_HISTORY
 # User configuration
 # export MANPATH="/usr/local/man:$MANPATH"
 # You may need to manually set your language environment
@@ -158,8 +158,9 @@ alias stk='setoolkit'
 alias curl='curl -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"'
 alias scripthelp='cat /home/adam/Documents/LearnLinux/adams_script_helpers.md'
 alias fman='compgen -c | fzf | xargs man'
-alias ns='tput smcup'
-alias rs='tput rmcup'
+alias new='tput smcup'
+alias back='tput rmcup'
+alias shred='shred -f -n 3 -u'
 # --- setup fzf theme ---
 fg="#CBE0F0"
 bg="#011628"
